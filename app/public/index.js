@@ -1,23 +1,28 @@
-document.addEventListener('DOMContentLoaded', function () {
+dateNow = new Date();
+month = dateNow.getMonth();
+day = dateNow.getDate();
+year = dateNow.getFullYear();
+
+monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+let calendarM = month;
+let calendarY = year;
 
 
-    var htmlContent = "";
-    var FebNumberOfDays = "";
-    var counter = 1;
+
+function CreateCalendar() {
 
 
-    dateNow = new Date();
-    month = dateNow.getMonth();
-    day = dateNow.getDate();
-    year = dateNow.getFullYear();
+    let htmlContent = "";
+    let FebNumberOfDays = "";
+    let counter = 1;
 
-    var nextMonth = month + 1;
-    var prevMonth = month - 1;
+    let nextMonth = month + 1;
+    let prevMonth = month - 1;
 
 
-    //Determing if February (28,or 29)
-    if (month == 1) {
-        if ((year % 100 != 0) && (year % 4 == 0) || (year % 400 == 0)) {
+    if (calendarM === 1) {
+        if ((calendarY % 100 != 0) && (calendarY % 4 === 0) || (calendarY % 400 === 0)) {
             FebNumberOfDays = 29;
         } else {
             FebNumberOfDays = 28;
@@ -25,22 +30,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    // names of months and week days.
-    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    var dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "Saturday"];
+
     var dayPerMonth = ["31", "" + FebNumberOfDays + "", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31"];
 
 
-    // days in previous month and next one , and day of week.
-    var nextDate = new Date(nextMonth + ' 1 ,' + year);
+    var nextDate = new Date(nextMonth + ' 1 ,' + calendarY);
     var weekdays = 0;
-    var numOfDays = dayPerMonth[month];
+    var numOfDays = dayPerMonth[calendarM];
 
 
-    // loop to build the calendar body.
     while (counter <= numOfDays) {
 
-        // When to start new line.
         if (weekdays > 6) {
             weekdays = 0;
             htmlContent += "</tr><tr>";
@@ -66,16 +66,29 @@ document.addEventListener('DOMContentLoaded', function () {
     calendarBody += "</tr></table>";
     document.querySelector('.container').insertAdjacentHTML("beforeend", calendarBody);
 
-}, false);
+}
+document.addEventListener('DOMContentLoaded', CreateCalendar, false);
 
-function prevM(){
-        month = (month == 0)? 11 : month-1;
-        year = (month == 0)? year-1:year;
-        document.getElementsByClassName("titles").innerHTML=month+" "+year;
+
+function loadmonthyear(){
+    const divM = document.querySelector(".titles");
+    divM.innerHTML= monthNames[calendarM]+" "+calendarY;
+
+    const tHTML = document.querySelector(".container");
+    tHTML.innerHTML = "";
+    CreateCalendar();
+    console.log(calendarM+" "+calendarY);
+}
+
+function prevM() {
+    calendarM = (calendarM == 0) ? 11 : calendarM - 1;
+    calendarY = (calendarM == 0) ? calendarY - 1 : calendarY;
+    loadmonthyear();
+
 }
 
 function nextM(){
-    month = (month == 11)? 0 : month+1;
-    year = (month == 11)? year+1:year;
-    document.getElementsByClassName("titles").innerHTML=month+" "+year;
+    calendarM = (calendarM == 11)%12;
+    calendarY = (calendarM == 11)? calendarY+1:calendarY;
+    loadmonthyear();
 }

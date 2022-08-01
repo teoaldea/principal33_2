@@ -49,7 +49,7 @@ $pdo = new PDO('mysql:dbname=tutorial;host=mysql', 'tutorial', 'secret', [PDO::A
 
     <div>
         <ul class="eventslist">
-            <li><h1 class="titles">Upcoming Events</h1></li>
+            <li><h1 class="events">Upcoming Events</h1></li>
             <li>
                 <div class="people">Leslie Alexander</div>
                 <div class="hours">1:00 PM - 2:30 PM</div>
